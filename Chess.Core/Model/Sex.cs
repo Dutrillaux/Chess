@@ -1,4 +1,4 @@
-﻿namespace Chess.Core
+﻿namespace Chess.Core.Model
 {
     public enum Sex
     {

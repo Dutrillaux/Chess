@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Chess.Core
+namespace Chess.Core.Model
 {
     public class Titles
     {

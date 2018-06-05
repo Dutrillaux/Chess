@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-
-namespace Chess.Core
+﻿namespace Chess.Core.Model
 {
     public class Club
     {

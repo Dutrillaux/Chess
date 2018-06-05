@@ -1,6 +1,4 @@
-using Chess.Core;
-
-namespace Chess.Console
+namespace Chess.Core.Model
 {
     public class Game
     {

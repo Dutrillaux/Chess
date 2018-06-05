@@ -1,4 +1,4 @@
-namespace Chess.Console
+namespace Chess.Core.Model
 {
     public enum GameResult
     {

@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Chess.Core;
+using Chess.Core.Model;
 
-namespace Chess.Console
+namespace Chess.Core
 {
     public class TournoideBerger
     {
@@ -17,7 +16,8 @@ namespace Chess.Console
 
         public void StartTournement()
         {
-            System.Console.WriteLine("Type de tournoi : Table de Berger");
+            Console.WriteLine("Type de tournoi : Table de Berger");
+            Console.WriteLine();
 
             var rondes = PopulateRondes(Players);
 
@@ -28,13 +28,13 @@ namespace Chess.Console
         {
             var result = new List<Ronde>();
 
-            for (int currentRonde = 1; currentRonde <= TotalRondeNumber; currentRonde++)
+            for (int currentRondeNumber = 1; currentRondeNumber <= TotalRondeNumber; currentRondeNumber++)
             {
-                var ronde = GetRonde(players, currentRonde, ContestantNumber());
+                var ronde = GetRonde(players, currentRondeNumber, ContestantNumber());
 
                 result.Add(ronde);
 
-                System.Console.WriteLine(ronde);
+                ronde.Display(currentRondeNumber, _tournoi.MaxDisplayLenght);
             }
 
             return result;
@@ -133,6 +133,12 @@ namespace Chess.Console
         }
 
         public void NextRonde()
+        {
+
+            throw new NotImplementedException();
+        }
+
+        public void SetResultForCurrentRonde()
         {
             throw new NotImplementedException();
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Chess.Core
+namespace Chess.Core.Model
 {
     public class Player
     {
@@ -15,6 +15,7 @@ namespace Chess.Core
         public int Age { get; set; }
         public string Nom;
         public string Prenom;
+        public int DisplayLength => Nom.Length + Prenom.Length;
         public int Id;
         public DateTime BirthDateTime;
         public Club Club;

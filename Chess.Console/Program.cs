@@ -1,7 +1,5 @@
 using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Chess.Core;
 
 namespace Chess.Console
 {
@@ -17,15 +15,26 @@ namespace Chess.Console
             tournoi.AddPlayer("Raphael", "Perret", 10);
             tournoi.AddPlayer("Octave", "Perret", 10);
 
-            tournoi.StartTournement();
-
             System.Console.WriteLine("Nombre de joeur inscrits :" + tournoi.Players.Count);
             System.Console.WriteLine("Nomre de Ronde : " + tournoi.TotalRondeNumber);
 
-            tournoi.NextRonde();
+            System.Console.WriteLine();
+            System.Console.WriteLine();
 
-            System.Console.ReadKey();
+            tournoi.StartTournement();
+            
+            var keyPressed = System.Console.ReadKey();
+            while (keyPressed.Key != ConsoleKey.Q)
+            {
+                switch (keyPressed.Key)
+                {
+                    case ConsoleKey.R:
+                        tournoi.SetResultForCurrentRonde();
+                        break;
+                }
+
+                tournoi.NextRonde();
+            }
         }
-
     }
 }

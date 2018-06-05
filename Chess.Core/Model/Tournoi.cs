@@ -1,7 +1,7 @@
+using System;
 using System.Collections.Generic;
-using Chess.Core;
 
-namespace Chess.Console
+namespace Chess.Core.Model
 {
     public class Tournoi
     {
@@ -10,9 +10,14 @@ namespace Chess.Console
         //public int CurrentRondeNumber { get; set; }
         public List<Ronde> Rondes = new List<Ronde>();
 
+        public int MaxDisplayLenght;
+
         public void AddPlayer(string prenom, string nom, int age)
         {
-            Players.Add(new Player(Players.Count + 1, prenom, nom, age));
+            var player = new Player(Players.Count + 1, prenom, nom, age);
+            Players.Add(player);
+
+            MaxDisplayLenght = Math.Max(MaxDisplayLenght, player.DisplayLength);
         }
     }
 }

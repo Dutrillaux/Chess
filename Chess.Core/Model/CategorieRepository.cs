@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Chess.Core
+namespace Chess.Core.Model
 {
     public class CategorieRepository
     {
