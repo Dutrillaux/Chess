@@ -2,6 +2,13 @@
 
 namespace Chess.Core.Model
 {
+    public class NullPlayer : Player
+    {
+        public NullPlayer(int id) : base(id, string.Empty, "Personne", 0)
+        {
+        }
+    }
+
     public class Player
     {
         public Player(int id, string prenom, string nom, int age)
@@ -10,7 +17,7 @@ namespace Chess.Core.Model
             Nom = nom;
             Prenom = prenom;
             Age = age;
-            }
+        }
 
         public int Age { get; set; }
         public string Nom;

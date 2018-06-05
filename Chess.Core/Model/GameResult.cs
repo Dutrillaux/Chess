@@ -4,6 +4,7 @@ namespace Chess.Core.Model
     {
         WinnerBlack,
         WinnerWhite,
-        Null
+        Null,
+        None
     }
 }

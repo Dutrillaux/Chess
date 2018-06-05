@@ -9,7 +9,7 @@ namespace Chess.Core.Model
         }
         public Player BlackContestant;
         public Player WhiteContestant;
-        public GameResult GameResult;
+        public GameResult GameResult = GameResult.None;
 
         public override string ToString()
         {

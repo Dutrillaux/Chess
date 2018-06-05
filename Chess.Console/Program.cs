@@ -1,5 +1,6 @@
 using System;
 using Chess.Core;
+using ConsoleKey = System.ConsoleKey;
 
 namespace Chess.Console
 {
@@ -22,18 +23,26 @@ namespace Chess.Console
             System.Console.WriteLine();
 
             tournoi.StartTournement();
-            
-            var keyPressed = System.Console.ReadKey();
+
+            var keyPressed = new ConsoleKeyInfo();
             while (keyPressed.Key != ConsoleKey.Q)
             {
+                System.Console.WriteLine("R pour saisie des résultats, A pour Afficher toutes les rondes, Q pour quitter");
+                System.Console.WriteLine("S pour ronde suivante");
+                keyPressed = System.Console.ReadKey();
+
                 switch (keyPressed.Key)
                 {
                     case ConsoleKey.R:
                         tournoi.SetResultForCurrentRonde();
                         break;
+                    case ConsoleKey.A:
+                        tournoi.DisplayAllRondes();
+                        break;
+                    case ConsoleKey.S:
+                        tournoi.NextRonde();
+                        break;
                 }
-
-                tournoi.NextRonde();
             }
         }
     }

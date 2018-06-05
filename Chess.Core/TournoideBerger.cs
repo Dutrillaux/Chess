@@ -14,6 +14,11 @@ namespace Chess.Core
 
         public int TotalRondeNumber => ContestantNumber() - 1;
 
+        public void AddPlayer(string prenom, string nom, int age)
+        {
+            _tournoi.AddPlayer(prenom, nom, age);
+        }
+
         public void StartTournement()
         {
             Console.WriteLine("Type de tournoi : Table de Berger");
@@ -22,22 +27,45 @@ namespace Chess.Core
             var rondes = PopulateRondes(Players);
 
             _tournoi.Rondes = rondes;
+
+            DisplayAllRondes();
+        }
+
+        public void SetResultForCurrentRonde()
+        {
+            _tournoi.SetResultForCurrentRonde();
+
+            DisplayAllRondes();
+        }
+        public void NextRonde()
+        {
+            _tournoi.NextRonde();
+            throw new NotImplementedException();
         }
 
         private List<Ronde> PopulateRondes(List<Player> players)
         {
             var result = new List<Ronde>();
 
-            for (int currentRondeNumber = 1; currentRondeNumber <= TotalRondeNumber; currentRondeNumber++)
+            for (var currentRondeNumber = 1; currentRondeNumber <= TotalRondeNumber; currentRondeNumber++)
             {
                 var ronde = GetRonde(players, currentRondeNumber, ContestantNumber());
 
                 result.Add(ronde);
-
-                ronde.Display(currentRondeNumber, _tournoi.MaxDisplayLenght);
             }
 
             return result;
+        }
+
+
+        public void DisplayAllRondes()
+        {
+            var currentRondeNumber = 1;
+            foreach (var ronde in Rondes)
+            {
+                ronde.Display(currentRondeNumber, _tournoi.MaxDisplayLenght);
+                currentRondeNumber++;
+            }
         }
 
         private int ContestantNumber()
@@ -55,7 +83,7 @@ namespace Chess.Core
             return contestantNumber;
         }
 
-        private Ronde GetRonde(List<Player> players, int currentRonde, int contestantNumber)
+        private static Ronde GetRonde(List<Player> players, int currentRonde, int contestantNumber)
         {
             var result = new Ronde();
 
@@ -75,8 +103,13 @@ namespace Chess.Core
                 {
                     bNumber = contestantNumber;
                 }
-                
+
                 var playerB = players.Find(x => x.Id == bNumber);
+
+                if (playerB == null)
+                {
+                    playerB = new NullPlayer(bNumber);
+                }
 
                 var game = GetGame(playerB, playerA);
                 result.Games.Add(game);
@@ -84,7 +117,6 @@ namespace Chess.Core
                 if (playersAlreadyInRonde.Contains(playerB))
                     throw new Exception("ne doit pas arriver !!!");
 
-                
                 playersAlreadyInRonde.Add(playerA);
                 playersAlreadyInRonde.Add(playerB);
             }
@@ -94,14 +126,15 @@ namespace Chess.Core
 
         private static Game GetGame(Player playerB, Player playerA)
         {
-            if (playerB == null)
-            {
-                var game = new Game(playerA, null)
-                {
-                    GameResult = GameResult.WinnerWhite
-                };
-                return game;
-            }
+            //if (playerB == null)
+            //{
+            //    playerB = new NullPlayer();
+            //    //var game = new Game(playerA, null)
+            //    //{
+            //    //    GameResult = GameResult.WinnerWhite
+            //    //};
+            //    //return game;
+            //}
 
             if ((playerA.Id + playerB.Id) % 2 == 1)
             {
@@ -125,22 +158,6 @@ namespace Chess.Core
                     return new Game(playerA, playerB);
                 }
             }
-        }
-
-        public void AddPlayer(string prenom, string nom, int age)
-        {
-            _tournoi.AddPlayer(prenom, nom, age);
-        }
-
-        public void NextRonde()
-        {
-
-            throw new NotImplementedException();
-        }
-
-        public void SetResultForCurrentRonde()
-        {
-            throw new NotImplementedException();
         }
     }
 }
