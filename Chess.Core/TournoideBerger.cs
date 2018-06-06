@@ -6,17 +6,17 @@ namespace Chess.Core
 {
     public class TournoideBerger
     {
-        private readonly Tournoi _tournoi = new Tournoi();
+        public readonly Tournoi Tournoi = new Tournoi();
 
-        public List<Player> Players => _tournoi.Players;
+        public List<Player> Players => Tournoi.Players;
 
-        public List<Ronde> Rondes => _tournoi.Rondes;
+        public List<Ronde> Rondes => Tournoi.Rondes;
 
         public int TotalRondeNumber => ContestantNumber() - 1;
 
         public void AddPlayer(string prenom, string nom, int age)
         {
-            _tournoi.AddPlayer(prenom, nom, age);
+            Tournoi.AddPlayer(prenom, nom, age);
         }
 
         public void StartTournement()
@@ -26,21 +26,22 @@ namespace Chess.Core
 
             var rondes = PopulateRondes(Players);
 
-            _tournoi.Rondes = rondes;
+            Tournoi.Rondes = rondes;
 
             DisplayAllRondes();
         }
 
         public void SetResultForCurrentRonde()
         {
-            _tournoi.SetResultForCurrentRonde();
+            Tournoi.SetResultForCurrentRonde();
 
             DisplayAllRondes();
+
+            NextRonde();
         }
         public void NextRonde()
         {
-            _tournoi.NextRonde();
-            throw new NotImplementedException();
+            Tournoi.NextRonde();
         }
 
         private List<Ronde> PopulateRondes(List<Player> players)
@@ -63,12 +64,12 @@ namespace Chess.Core
             var currentRondeNumber = 1;
             foreach (var ronde in Rondes)
             {
-                ronde.Display(currentRondeNumber, _tournoi.MaxDisplayLenght);
+                ronde.Display(currentRondeNumber, Tournoi.MaxDisplayLenght);
                 currentRondeNumber++;
             }
         }
 
-        private int ContestantNumber()
+        public int ContestantNumber()
         {
             int contestantNumber;
             if (Players.Count % 2 == 1)

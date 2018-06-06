@@ -27,20 +27,24 @@ namespace Chess.Console
             var keyPressed = new ConsoleKeyInfo();
             while (keyPressed.Key != ConsoleKey.Q)
             {
-                System.Console.WriteLine("R pour saisie des résultats, A pour Afficher toutes les rondes, Q pour quitter");
+                System.Console.WriteLine("V pour saisie des résultats, A pour Afficher toutes les rondes, Q pour quitter");
                 System.Console.WriteLine("S pour ronde suivante");
                 keyPressed = System.Console.ReadKey();
+                System.Console.WriteLine();
 
                 switch (keyPressed.Key)
                 {
-                    case ConsoleKey.R:
+                    case ConsoleKey.V:
                         tournoi.SetResultForCurrentRonde();
                         break;
                     case ConsoleKey.A:
                         tournoi.DisplayAllRondes();
                         break;
-                    case ConsoleKey.S:
+                    case ConsoleKey.R:
                         tournoi.NextRonde();
+                        break;
+                    case ConsoleKey.S:
+                        new RankingService().SetRanking(tournoi.Tournoi);
                         break;
                 }
             }

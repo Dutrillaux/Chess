@@ -35,7 +35,29 @@ namespace Chess.Core.Model
             }
         }
 
-        private static GameResult GetResultForGame(Game game)
+        private GameResult GetResultForGame(Game game)
+        {
+            return game.IsPlayedGame
+                ? ResultForPlayedGame(game)
+                : ResultForNonPlayedGame(game);
+        }
+
+        private GameResult ResultForNonPlayedGame(Game game)
+        {
+            if (game.BlackContestant is NullPlayer)
+            {
+                return GameResult.WinnerWhite;
+            }
+
+            if (game.WhiteContestant is NullPlayer)
+            {
+                return GameResult.WinnerBlack;
+            }
+
+            return GameResult.None;
+        }
+
+        private GameResult ResultForPlayedGame(Game game)
         {
             Console.WriteLine(
                 $" Saisie du résultat de la partie : (Blanc) {game.WhiteContestant.Prenom + game.WhiteContestant.Nom} versus (Noir) {game.BlackContestant.Prenom + game.BlackContestant.Nom}");
@@ -44,10 +66,7 @@ namespace Chess.Core.Model
             Console.WriteLine(possibleKeyPressed);
 
             var keyPressed = new ConsoleKeyInfo();
-
-            while (!(keyPressed.Key == ConsoleKey.B 
-                     || keyPressed.Key == ConsoleKey.N 
-                     || keyPressed.Key == ConsoleKey.P))
+            while (keyPressed.Key != ConsoleKey.Q)
             {
                 keyPressed = Console.ReadKey();
                 switch (keyPressed.Key)
@@ -63,13 +82,12 @@ namespace Chess.Core.Model
                         break;
                 }
             }
-
             return GameResult.None;
         }
 
         public void NextRonde()
         {
-            if (CurrentRondeNumber == (Rondes.Count - 1))
+            if (CurrentRondeNumber == Rondes.Count)
             {
                 EndOfTournement();
             }
@@ -81,7 +99,10 @@ namespace Chess.Core.Model
 
         private void EndOfTournement()
         {
-            throw new NotImplementedException();
+            Console.WriteLine(" Le tournoi est terminé.");
+
+            var rankingService  = new RankingService();
+            rankingService.SetRanking(this);
         }
     }
 }
