@@ -6,7 +6,9 @@ namespace Chess.Core.Model
     public class Tournoi
     {
         public readonly List<Player> Players = new List<Player>();
-        public readonly List<Ronde> Rondes = new List<Ronde>();
+
+        public List<Ronde> Rondes { get; set; } = new List<Ronde>();
+
         public int MaxDisplayLenght;
         public int CurrentRondeNumber { get; private set; }
 

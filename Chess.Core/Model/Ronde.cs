@@ -16,11 +16,10 @@ namespace Chess.Core.Model
         {
             var result = new StringBuilder();
 
-            result.AppendLine();
             var rondeDescrition = currentRondeNumber.HasValue 
                 ? $"Ronde {currentRondeNumber.Value} || " 
                 : "Ronde || ";
-            result.AppendLine(rondeDescrition);
+            result.Append(rondeDescrition);
 
             foreach (var game in Games)
             {
