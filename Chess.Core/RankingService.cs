@@ -8,7 +8,7 @@ namespace Chess.Core
 {
     public class RankingService
     {
-        public void SetRanking(ITournement tournament)
+        public List<PlayerRanking> CalculateRanking(ITournament tournament)
         {
             var players = new List<Player>(tournament.Players);
 
@@ -23,12 +23,14 @@ namespace Chess.Core
             DisplayRanking(playerRankings);
 
             if (playerRankings.Count(x => x.Rank == PlayerRanking.DefaultRank) == 0)
-                return;
+                return playerRankings;
 
             Console.WriteLine(" Calcul du 2e départage");
             SetRankingWithDepartageKoya(playerRankings, players, tournament.Rounds, tournament.ContestantNumber());
             SetClassement(playerRankings);
             DisplayRanking(playerRankings);
+
+            return playerRankings;
         }
 
         private void SetRankingWithDepartageKoya(List<PlayerRanking> playerRankings,

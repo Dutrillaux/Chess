@@ -48,8 +48,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RankingServiceTests.cs" />
+    <Compile Include="Ranking_Service_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TournamentDeBerger_Tests.cs" />
+    <Compile Include="Tournament_Tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

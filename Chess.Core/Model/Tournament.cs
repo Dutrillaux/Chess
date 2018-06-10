@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Chess.Core.Model
 {
-    public class Tournament
+    public class Tournament : ISetupTournament
     {
-        public readonly List<Player> Players = new List<Player>();
+        public List<Player> Players { get; }= new List<Player>();
 
         public List<Round> Rounds { get; set; } = new List<Round>();
 

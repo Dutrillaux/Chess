@@ -4,7 +4,7 @@ using Chess.Core.Model;
 
 namespace Chess.Core
 {
-    public class TournamentDeBerger : ITournement
+    public class TournamentDeBerger : ITournament
     {
         public readonly Tournament Tournament = new Tournament();
         
