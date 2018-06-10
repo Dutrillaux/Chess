@@ -73,7 +73,7 @@ namespace Chess.Core.Model
         public Title Title;
         public Classement Classement;
         public Categorie Categorie;
-        private decimal _points = 0;
+        //private decimal _points = 0;
         private int _numberOfResultSetted = 0;
         public int NumberOfResultSetted => _numberOfResultSetted;
 

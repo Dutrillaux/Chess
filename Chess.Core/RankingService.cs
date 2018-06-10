@@ -6,41 +6,9 @@ using Chess.Core.Model;
 
 namespace Chess.Core
 {
-    //    public class PlayerComparer : IEqualityComparer<Player>
-    //    {
-    //        //public override int Compare(Player playerA, Player playerB)
-    //        //{
-    //        //    if(playerA is null || playerB is null)
-    //        //        throw new NotImplementedException();
-
-    //        //    if (playerA.Points > playerB.Points)
-    //        //        return 1;
-    //        //    if (playerA.Points < playerB.Points)
-    //        //        return -1;
-    //        //    return 0;
-    //        //}
-
-    //        public bool Equals(Player playerA, Player playerB)
-    //        {
-    //            if (playerA is null || playerB is null)
-    //                throw new NotImplementedException();
-
-    //            if (playerA.Points > playerB.Points)
-    //                return false;
-    //            if (playerA.Points < playerB.Points)
-    //                return false;
-    //            return true;
-    //        }
-
-    //        public int GetHashCode(Player player)
-    //        {
-    //            return player.Points.GetHashCode();
-    //        }
-    //    }
-
     public class RankingService
     {
-        public void SetRanking(TournoideBerger tournoi)
+        public void SetRanking(ITournement tournoi)
         {
             var players = new List<Player>(tournoi.Players);
 

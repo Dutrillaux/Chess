@@ -4,15 +4,15 @@ using Chess.Core.Model;
 
 namespace Chess.Core
 {
-    public class TournoideBerger
+    public class TournoiDeBerger : ITournement
     {
         public readonly Tournoi Tournoi = new Tournoi();
+        
+        public int TotalRondeNumber => ContestantNumber() - 1;
 
         public List<Player> Players => Tournoi.Players;
 
         public List<Ronde> Rondes => Tournoi.Rondes;
-
-        public int TotalRondeNumber => ContestantNumber() - 1;
 
         public void AddPlayer(string prenom, string nom, int age)
         {

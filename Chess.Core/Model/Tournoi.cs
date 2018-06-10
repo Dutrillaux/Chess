@@ -87,7 +87,7 @@ namespace Chess.Core.Model
 
         public void NextRonde()
         {
-            if (CurrentRondeNumber == Rondes.Count)
+            if (CurrentRondeNumber >= Rondes.Count)
             {
                 EndOfTournement();
             }
@@ -100,9 +100,6 @@ namespace Chess.Core.Model
         private void EndOfTournement()
         {
             Console.WriteLine(" Le tournoi est terminé.");
-
-            var rankingService  = new RankingService();
-            rankingService.SetRanking(this);
         }
     }
 }
