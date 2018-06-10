@@ -10,11 +10,11 @@ namespace Chess.Console
         {
             var tournamentDeBerger = new TournamentDeBerger();
 
-            tournamentDeBerger.AddPlayer("Victor", "Dutrillaux", 8);
-            tournamentDeBerger.AddPlayer("Arthur", "Dutrillaux", 10);
-            tournamentDeBerger.AddPlayer("Adam", "Oualalou", 10);
-            tournamentDeBerger.AddPlayer("Raphael", "Perret", 10);
-            tournamentDeBerger.AddPlayer("Octave", "Perret", 10);
+            tournamentDeBerger.AddPlayer("John", "Doe", 25);
+            tournamentDeBerger.AddPlayer("Johnny", "Good", 25);
+            tournamentDeBerger.AddPlayer("Billy", "The Kid", 18);
+            tournamentDeBerger.AddPlayer("Robert", "Michoum", 25);
+            tournamentDeBerger.AddPlayer("Mike", "Orson", 18);
 
             System.Console.WriteLine("Nombre de joeur inscrits :" + tournamentDeBerger.Players.Count);
             System.Console.WriteLine("Nomre de Ronde : " + tournamentDeBerger.TotalRoundNumber);
@@ -44,7 +44,7 @@ namespace Chess.Console
                         tournamentDeBerger.NextRound();
                         break;
                     case ConsoleKey.S:
-                        new RankingService().SetRanking(tournamentDeBerger);
+                        new RankingService().CalculateRanking(tournamentDeBerger);
                         break;
                 }
             }
