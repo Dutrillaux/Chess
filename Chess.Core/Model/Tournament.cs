@@ -3,18 +3,18 @@ using System.Collections.Generic;
 
 namespace Chess.Core.Model
 {
-    public class Tournoi
+    public class Tournament
     {
         public readonly List<Player> Players = new List<Player>();
 
-        public List<Ronde> Rondes { get; set; } = new List<Ronde>();
+        public List<Round> Rounds { get; set; } = new List<Round>();
 
         public int MaxDisplayLenght;
-        public int CurrentRondeNumber { get; private set; }
+        public int CurrentRoundNumber { get; private set; }
 
-        public Tournoi()
+        public Tournament()
         {
-            CurrentRondeNumber = 1;
+            CurrentRoundNumber = 1;
         }
 
         public void AddPlayer(string prenom, string nom, int age)
@@ -25,11 +25,11 @@ namespace Chess.Core.Model
             MaxDisplayLenght = Math.Max(MaxDisplayLenght, player.DisplayLength);
         }
 
-        public void SetResultForCurrentRonde()
+        public void SetResultForCurrentRound()
         {
-            var currentRonde = CurrentRondeNumber;
+            var currentRound = CurrentRoundNumber;
 
-            foreach (var game in Rondes[currentRonde - 1].Games)
+            foreach (var game in Rounds[currentRound - 1].Games)
             {
                 game.GameResult = GetResultForGame(game);
             }
@@ -76,7 +76,7 @@ namespace Chess.Core.Model
                     case ConsoleKey.N:
                         return GameResult.WinnerBlack;
                     case ConsoleKey.P:
-                        return GameResult.Null;
+                        return GameResult.NoWinnerPat;
                     default:
                         Console.WriteLine(possibleKeyPressed);
                         break;
@@ -85,19 +85,19 @@ namespace Chess.Core.Model
             return GameResult.None;
         }
 
-        public void NextRonde()
+        public void NextRound()
         {
-            if (CurrentRondeNumber >= Rondes.Count)
+            if (CurrentRoundNumber >= Rounds.Count)
             {
-                EndOfTournement();
+                EndOfTournament();
             }
             else
             {
-                CurrentRondeNumber++;
+                CurrentRoundNumber++;
             }
         }
 
-        private void EndOfTournement()
+        private void EndOfTournament()
         {
             Console.WriteLine(" Le tournoi est terminé.");
         }

@@ -7,23 +7,23 @@ namespace Chess.Core.Tests
     [TestClass]
     public class Ranking_Service_Tests
     {
-        private TournoideBerger _tournoideBerger = new TournoideBerger();
+        private readonly TournamentDeBerger _tournamentdeBerger = new TournamentDeBerger();
 
         private void Initialize()
         {
-            _tournoideBerger.AddPlayer("Victor", "Dutrillaux", 8);
-            _tournoideBerger.AddPlayer("Arthur", "Dutrillaux", 10);
-            _tournoideBerger.AddPlayer("Adam", "Oualalou", 10);
-            _tournoideBerger.AddPlayer("Raphael", "Perret", 10);
-            _tournoideBerger.AddPlayer("Octave", "Perret", 10);
+            _tournamentdeBerger.AddPlayer("Victor", "Dutrillaux", 8);
+            _tournamentdeBerger.AddPlayer("Arthur", "Dutrillaux", 10);
+            _tournamentdeBerger.AddPlayer("Adam", "Oualalou", 10);
+            _tournamentdeBerger.AddPlayer("Raphael", "Perret", 10);
+            _tournamentdeBerger.AddPlayer("Octave", "Perret", 10);
 
-            _tournoideBerger.StartTournement();
+            _tournamentdeBerger.StartTournement();
 
             var cpt = 0;
-            foreach (var ronde in _tournoideBerger.Rondes)
+            foreach (var round in _tournamentdeBerger.Rounds)
             {
 
-                foreach (var game in ronde.Games)
+                foreach (var game in round.Games)
                 {
                     cpt++;
                     if (game.BlackContestant.Id == 2)
@@ -45,7 +45,7 @@ namespace Chess.Core.Tests
         [TestMethod]
         public void Test_Ranking_Order()
         {
-            _tournoideBerger.DisplayAllRondes();
+            _tournamentdeBerger.DisplayAllRounds();
         }
     }
 }

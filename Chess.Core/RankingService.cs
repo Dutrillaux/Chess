@@ -8,9 +8,9 @@ namespace Chess.Core
 {
     public class RankingService
     {
-        public void SetRanking(ITournement tournoi)
+        public void SetRanking(ITournement tournament)
         {
-            var players = new List<Player>(tournoi.Players);
+            var players = new List<Player>(tournament.Players);
 
             var playerRankings = new List<PlayerRanking>();
             foreach (var player in players)
@@ -18,7 +18,7 @@ namespace Chess.Core
                 playerRankings.Add(new PlayerRanking(player.Id, player.Nom, player.Prenom));
             }
 
-            SetRankingByDirectConfrontation(playerRankings, players, tournoi.Rondes);
+            SetRankingByDirectConfrontation(playerRankings, players, tournament.Rounds);
             SetClassement(playerRankings);
             DisplayRanking(playerRankings);
 
@@ -26,14 +26,14 @@ namespace Chess.Core
                 return;
 
             Console.WriteLine(" Calcul du 2e départage");
-            SetRankingWithDepartageKoya(playerRankings, players, tournoi.Rondes, tournoi.ContestantNumber());
+            SetRankingWithDepartageKoya(playerRankings, players, tournament.Rounds, tournament.ContestantNumber());
             SetClassement(playerRankings);
             DisplayRanking(playerRankings);
         }
 
         private void SetRankingWithDepartageKoya(List<PlayerRanking> playerRankings,
             IReadOnlyCollection<Player> players,
-            IReadOnlyCollection<Ronde> rondes, int contestantNumber)
+            IReadOnlyCollection<Round> rounds, int contestantNumber)
         {
             IEnumerable<decimal> listResultDistinct = playerRankings.Select(x => x.Points).Distinct().OrderByDescending(x => x);
 
@@ -51,7 +51,7 @@ namespace Chess.Core
                     {
                         halfPointOrMorePointPlayers.Add(players.First(x=>x.Id == id));
                     }
-                    SetRankingByDirectConfrontation(playerRankings, halfPointOrMorePointPlayers, rondes, true);
+                    SetRankingByDirectConfrontation(playerRankings, halfPointOrMorePointPlayers, rounds, true);
                     SetClassement(playerRankings);
                     
                     //var halfPointOrMorePointPlayers = players.All(x => x.Id == ids).ToList();
@@ -95,11 +95,11 @@ namespace Chess.Core
         }
 
         private static void SetRankingByDirectConfrontation(List<PlayerRanking> playerRankings,
-            IReadOnlyCollection<Player> players, IEnumerable<Ronde> rondes, bool ignoreNull = false)
+            IReadOnlyCollection<Player> players, IEnumerable<Round> rounds, bool ignoreNull = false)
         {
-            foreach (var ronde in rondes)
+            foreach (var round in rounds)
             {
-                foreach (var game in ronde.Games)
+                foreach (var game in round.Games)
                 {
                     int winnerId;
                     Player winner;
@@ -117,7 +117,7 @@ namespace Chess.Core
                             winnerId = winner.Id;
                             playerRankings.First(x => x.PlayerId == winnerId).Points += 1m;
                             break;
-                        case GameResult.Null:
+                        case GameResult.NoWinnerPat:
                             winner = players.First(x => x.Id == game.BlackContestant.Id);
                             if (ignoreNull && winner == null) continue;
                             winnerId = winner.Id;

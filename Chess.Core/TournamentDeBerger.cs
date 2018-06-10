@@ -4,19 +4,19 @@ using Chess.Core.Model;
 
 namespace Chess.Core
 {
-    public class TournoiDeBerger : ITournement
+    public class TournamentDeBerger : ITournement
     {
-        public readonly Tournoi Tournoi = new Tournoi();
+        public readonly Tournament Tournament = new Tournament();
         
-        public int TotalRondeNumber => ContestantNumber() - 1;
+        public int TotalRoundNumber => ContestantNumber() - 1;
 
-        public List<Player> Players => Tournoi.Players;
+        public List<Player> Players => Tournament.Players;
 
-        public List<Ronde> Rondes => Tournoi.Rondes;
+        public List<Round> Rounds => Tournament.Rounds;
 
         public void AddPlayer(string prenom, string nom, int age)
         {
-            Tournoi.AddPlayer(prenom, nom, age);
+            Tournament.AddPlayer(prenom, nom, age);
         }
 
         public void StartTournement()
@@ -24,48 +24,48 @@ namespace Chess.Core
             Console.WriteLine("Type de tournoi : Table de Berger");
             Console.WriteLine();
 
-            var rondes = PopulateRondes(Players);
+            var rounds = PopulateRounds(Players);
 
-            Tournoi.Rondes = rondes;
+            Tournament.Rounds = rounds;
 
-            DisplayAllRondes();
+            DisplayAllRounds();
         }
 
-        public void SetResultForCurrentRonde()
+        public void SetResultForCurrentRound()
         {
-            Tournoi.SetResultForCurrentRonde();
+            Tournament.SetResultForCurrentRound();
 
-            DisplayAllRondes();
+            DisplayAllRounds();
 
-            NextRonde();
+            NextRound();
         }
-        public void NextRonde()
+        public void NextRound()
         {
-            Tournoi.NextRonde();
+            Tournament.NextRound();
         }
 
-        private List<Ronde> PopulateRondes(List<Player> players)
+        private List<Round> PopulateRounds(List<Player> players)
         {
-            var result = new List<Ronde>();
+            var result = new List<Round>();
 
-            for (var currentRondeNumber = 1; currentRondeNumber <= TotalRondeNumber; currentRondeNumber++)
+            for (var currentRoundNumber = 1; currentRoundNumber <= TotalRoundNumber; currentRoundNumber++)
             {
-                var ronde = GetRonde(players, currentRondeNumber, ContestantNumber());
+                var round = GetRound(players, currentRoundNumber, ContestantNumber());
 
-                result.Add(ronde);
+                result.Add(round);
             }
 
             return result;
         }
 
 
-        public void DisplayAllRondes()
+        public void DisplayAllRounds()
         {
-            var currentRondeNumber = 1;
-            foreach (var ronde in Rondes)
+            var currentRoundNumber = 1;
+            foreach (var round in Rounds)
             {
-                ronde.Display(currentRondeNumber, Tournoi.MaxDisplayLenght);
-                currentRondeNumber++;
+                round.Display(currentRoundNumber, Tournament.MaxDisplayLenght);
+                currentRoundNumber++;
             }
         }
 
@@ -84,20 +84,20 @@ namespace Chess.Core
             return contestantNumber;
         }
 
-        private static Ronde GetRonde(List<Player> players, int currentRonde, int contestantNumber)
+        private static Round GetRound(List<Player> players, int currentRound, int contestantNumber)
         {
-            var result = new Ronde();
+            var result = new Round();
 
-            var playersAlreadyInRonde = new List<Player>();
+            var playersAlreadyInRound = new List<Player>();
 
             foreach (var playerA in players)
             {
-                if (playersAlreadyInRonde.Contains(playerA)) continue;
+                if (playersAlreadyInRound.Contains(playerA)) continue;
 
-                var bNumber = currentRonde - playerA.Id + contestantNumber;
+                var bNumber = currentRound - playerA.Id + contestantNumber;
                 if (bNumber > contestantNumber)
                 {
-                    bNumber = currentRonde - playerA.Id + 1;
+                    bNumber = currentRound - playerA.Id + 1;
                 }
 
                 if (bNumber == playerA.Id)
@@ -115,11 +115,11 @@ namespace Chess.Core
                 var game = GetGame(playerB, playerA);
                 result.Games.Add(game);
 
-                if (playersAlreadyInRonde.Contains(playerB))
+                if (playersAlreadyInRound.Contains(playerB))
                     throw new Exception("ne doit pas arriver !!!");
 
-                playersAlreadyInRonde.Add(playerA);
-                playersAlreadyInRonde.Add(playerB);
+                playersAlreadyInRound.Add(playerA);
+                playersAlreadyInRound.Add(playerB);
             }
 
             return result;

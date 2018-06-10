@@ -8,21 +8,21 @@ namespace Chess.Console
     {
         static void Main(string[] args)
         {
-            var tournoiDeBerger = new TournoiDeBerger();
+            var tournamentDeBerger = new TournamentDeBerger();
 
-            tournoiDeBerger.AddPlayer("Victor", "Dutrillaux", 8);
-            tournoiDeBerger.AddPlayer("Arthur", "Dutrillaux", 10);
-            tournoiDeBerger.AddPlayer("Adam", "Oualalou", 10);
-            tournoiDeBerger.AddPlayer("Raphael", "Perret", 10);
-            tournoiDeBerger.AddPlayer("Octave", "Perret", 10);
+            tournamentDeBerger.AddPlayer("Victor", "Dutrillaux", 8);
+            tournamentDeBerger.AddPlayer("Arthur", "Dutrillaux", 10);
+            tournamentDeBerger.AddPlayer("Adam", "Oualalou", 10);
+            tournamentDeBerger.AddPlayer("Raphael", "Perret", 10);
+            tournamentDeBerger.AddPlayer("Octave", "Perret", 10);
 
-            System.Console.WriteLine("Nombre de joeur inscrits :" + tournoiDeBerger.Players.Count);
-            System.Console.WriteLine("Nomre de Ronde : " + tournoiDeBerger.TotalRondeNumber);
+            System.Console.WriteLine("Nombre de joeur inscrits :" + tournamentDeBerger.Players.Count);
+            System.Console.WriteLine("Nomre de Ronde : " + tournamentDeBerger.TotalRoundNumber);
 
             System.Console.WriteLine();
             System.Console.WriteLine();
 
-            tournoiDeBerger.StartTournement();
+            tournamentDeBerger.StartTournement();
 
             var keyPressed = new ConsoleKeyInfo();
             while (keyPressed.Key != ConsoleKey.Q)
@@ -35,16 +35,16 @@ namespace Chess.Console
                 switch (keyPressed.Key)
                 {
                     case ConsoleKey.V:
-                        tournoiDeBerger.SetResultForCurrentRonde();
+                        tournamentDeBerger.SetResultForCurrentRound();
                         break;
                     case ConsoleKey.A:
-                        tournoiDeBerger.DisplayAllRondes();
+                        tournamentDeBerger.DisplayAllRounds();
                         break;
                     case ConsoleKey.R:
-                        tournoiDeBerger.NextRonde();
+                        tournamentDeBerger.NextRound();
                         break;
                     case ConsoleKey.S:
-                        new RankingService().SetRanking(tournoiDeBerger);
+                        new RankingService().SetRanking(tournamentDeBerger);
                         break;
                 }
             }

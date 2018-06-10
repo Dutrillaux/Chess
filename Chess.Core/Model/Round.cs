@@ -3,23 +3,23 @@ using System.Text;
 
 namespace Chess.Core.Model
 {
-    public class Ronde
+    public class Round
     {
         public List<Game> Games = new List<Game>();
 
         public override string ToString()
         {
-            return GetRondeAsString(null, null);
+            return GetRoundAsString(null, null);
         }
 
-        private string GetRondeAsString(int? currentRondeNumber, int? maxLength)
+        private string GetRoundAsString(int? currentRoundNumber, int? maxLength)
         {
             var result = new StringBuilder();
 
-            var rondeDescrition = currentRondeNumber.HasValue 
-                ? $"Ronde {currentRondeNumber.Value} || " 
+            var roundDescrition = currentRoundNumber.HasValue 
+                ? $"Ronde {currentRoundNumber.Value} || " 
                 : "Ronde || ";
-            result.Append(rondeDescrition);
+            result.Append(roundDescrition);
 
             foreach (var game in Games)
             {
@@ -41,7 +41,7 @@ namespace Chess.Core.Model
                     return " [  ]-[+1] ";
                 case GameResult.WinnerWhite:
                     return " [+1]-[  ] ";
-                case GameResult.Null:
+                case GameResult.NoWinnerPat:
                     return " [.5]-[.5] ";
                 default:
                     return "     -     ";
@@ -58,9 +58,9 @@ namespace Chess.Core.Model
             return result;
         }
 
-        public void Display(int currentRondeNumber, int tournoiMaxDisplayLenght)
+        public void Display(int currentRoundNumber, int tournamentMaxDisplayLenght)
         {
-            System.Console.WriteLine(GetRondeAsString(currentRondeNumber, tournoiMaxDisplayLenght));
+            System.Console.WriteLine(GetRoundAsString(currentRoundNumber, tournamentMaxDisplayLenght));
         }
     }
 }

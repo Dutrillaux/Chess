@@ -6,7 +6,7 @@ namespace Chess.Core
     public interface ITournement
     {
         List<Player> Players { get; }
-        List<Ronde> Rondes { get; }
+        List<Round> Rounds { get; }
         int ContestantNumber();
     }
 }
