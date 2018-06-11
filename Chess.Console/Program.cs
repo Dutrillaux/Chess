@@ -1,6 +1,8 @@
 using System;
 using Chess.Core;
-using ConsoleKey = System.ConsoleKey;
+using Chess.Core.Command;
+using Chess.Core.Model;
+//using ConsoleKey = System.ConsoleKey;
 
 namespace Chess.Console
 {
@@ -27,7 +29,8 @@ namespace Chess.Console
             var keyPressed = new ConsoleKeyInfo();
             while (keyPressed.Key != ConsoleKey.Q)
             {
-                System.Console.WriteLine("V pour saisie des résultats, A pour Afficher toutes les rondes, Q pour quitter");
+                System.Console.WriteLine(
+                    "V pour saisie des résultats, A pour Afficher toutes les rondes, Q pour quitter");
                 System.Console.WriteLine("S pour ronde suivante");
                 keyPressed = System.Console.ReadKey();
                 System.Console.WriteLine();
@@ -35,7 +38,7 @@ namespace Chess.Console
                 switch (keyPressed.Key)
                 {
                     case ConsoleKey.V:
-                        tournamentDeBerger.SetResultForCurrentRound();
+                        tournamentDeBerger.SetResultForCurrentRound(SetGameResultForGame);
                         break;
                     case ConsoleKey.A:
                         tournamentDeBerger.DisplayAllRounds();
@@ -45,6 +48,37 @@ namespace Chess.Console
                         break;
                     case ConsoleKey.S:
                         new RankingService().CalculateRanking(tournamentDeBerger);
+                        break;
+                }
+            }
+        }
+
+        private static void SetGameResultForGame(ICommandGameResult game)
+        {
+            System.Console.WriteLine(" Saisie du résultat de la partie : " + game);
+
+            const string possibleKeyPressed = "Resultat ? B (Blanc vainqueur), N (Noir vainqueur), P (Pat ou nul), Q (quitter)";
+            System.Console.WriteLine(possibleKeyPressed);
+
+            var keyPressed = new ConsoleKeyInfo();
+            while (keyPressed.Key != ConsoleKey.Q)
+            {
+                keyPressed = System.Console.ReadKey();
+                switch (keyPressed.Key)
+                {
+                    case ConsoleKey.B:
+                        game.SetGameResultCommand(GameResult.WinnerWhite);
+                        return;
+                    case ConsoleKey.N:
+                        game.SetGameResultCommand(GameResult.WinnerBlack);
+                        return;
+                    case ConsoleKey.P:
+                        game.SetGameResultCommand(GameResult.NoWinnerPat);
+                        return;
+                    case ConsoleKey.Q:
+                        return;
+                    default:
+                        System.Console.WriteLine(possibleKeyPressed);
                         break;
                 }
             }

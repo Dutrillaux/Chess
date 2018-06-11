@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Chess.Core.Model;
 
 namespace Chess.Core
@@ -11,14 +10,10 @@ namespace Chess.Core
         public List<PlayerRanking> CalculateRanking(ITournament tournament)
         {
             var players = new List<Player>(tournament.Players);
+            
+            var playerRankings = GetEmptyPlayerRankings(players);
 
-            var playerRankings = new List<PlayerRanking>();
-            foreach (var player in players)
-            {
-                playerRankings.Add(new PlayerRanking(player.Id, player.Nom, player.Prenom));
-            }
-
-            SetRankingByDirectConfrontation(playerRankings, players, tournament.Rounds);
+            SetRankingByDirectConfrontation(playerRankings, players, tournament.Rounds, true);
             SetClassement(playerRankings);
             DisplayRanking(playerRankings);
 
@@ -33,13 +28,27 @@ namespace Chess.Core
             return playerRankings;
         }
 
+        private static List<PlayerRanking> GetEmptyPlayerRankings(IEnumerable<Player> players)
+        {
+            return players.Select(player => new PlayerRanking(player.Id, player.Nom, player.Prenom)).ToList();
+        }
+
+        public List<PlayerRanking> GetRankingWithDepartageKoya(ITournament tournament)
+        {
+            var playerRankings = GetEmptyPlayerRankings(tournament.Players);
+
+            SetRankingWithDepartageKoya(playerRankings, tournament.Players,
+                tournament.Rounds, tournament.ContestantNumber());
+
+            return playerRankings;
+        }
+
         private void SetRankingWithDepartageKoya(List<PlayerRanking> playerRankings,
             IReadOnlyCollection<Player> players,
             IReadOnlyCollection<Round> rounds, int contestantNumber)
         {
             IEnumerable<decimal> listResultDistinct = playerRankings.Select(x => x.Points).Distinct().OrderByDescending(x => x);
 
-            //var rank = 0;
             foreach (var result in listResultDistinct)
             {
                 var playerToDepartage = playerRankings.Where(x => x.Points == result).ToList();
@@ -62,7 +71,7 @@ namespace Chess.Core
             }
         }
 
-        private static void SetClassement(IReadOnlyCollection<PlayerRanking> playerRankings)
+        public void SetClassement(IReadOnlyCollection<PlayerRanking> playerRankings)
         {
             IEnumerable<decimal> listResultDistinct = playerRankings
                 .Where(x=>x.Rank == PlayerRanking.DefaultRank)
@@ -86,7 +95,7 @@ namespace Chess.Core
             }
         }
 
-        private static void DisplayRanking(IEnumerable<PlayerRanking> playerRankings)
+        public void DisplayRanking(IEnumerable<PlayerRanking> playerRankings)
         {
             Console.WriteLine($" Position [Points] {new NullPlayer(0)}");
             Console.WriteLine();
@@ -96,7 +105,17 @@ namespace Chess.Core
             }
         }
 
-        private static void SetRankingByDirectConfrontation(List<PlayerRanking> playerRankings,
+        public List<PlayerRanking> SetRankingByDirectConfrontation(ITournament tournament)
+        {
+            var playerRankings = GetEmptyPlayerRankings(tournament.Players);
+
+            SetRankingByDirectConfrontation(playerRankings, tournament.Players,
+                tournament.Rounds, true);
+
+            return playerRankings;
+        }
+
+        private void SetRankingByDirectConfrontation(IReadOnlyCollection<PlayerRanking> playerRankings,
             IReadOnlyCollection<Player> players, IEnumerable<Round> rounds, bool ignoreNull = false)
         {
             foreach (var round in rounds)
@@ -108,24 +127,24 @@ namespace Chess.Core
                     switch (game.GameResult)
                     {
                         case GameResult.WinnerBlack:
-                            winner = players.First(x => x.Id == game.BlackContestant.Id);
+                            winner = players.FirstOrDefault(x => x.Id == game.BlackContestant.Id);
                             if (ignoreNull && winner == null) continue;
                             winnerId = winner.Id;
                             playerRankings.First(x => x.PlayerId == winnerId).Points += 1m;
                             break;
                         case GameResult.WinnerWhite:
-                            winner = players.First(x => x.Id == game.WhiteContestant.Id);
+                            winner = players.FirstOrDefault(x => x.Id == game.WhiteContestant.Id);
                             if (ignoreNull && winner == null) continue;
                             winnerId = winner.Id;
                             playerRankings.First(x => x.PlayerId == winnerId).Points += 1m;
                             break;
                         case GameResult.NoWinnerPat:
-                            winner = players.First(x => x.Id == game.BlackContestant.Id);
+                            winner = players.FirstOrDefault(x => x.Id == game.BlackContestant.Id);
                             if (ignoreNull && winner == null) continue;
                             winnerId = winner.Id;
                             playerRankings.First(x => x.PlayerId == winnerId).Points += 0.5m;
 
-                            winner = players.First(x => x.Id == game.WhiteContestant.Id);
+                            winner = players.FirstOrDefault(x => x.Id == game.WhiteContestant.Id);
                             if (ignoreNull && winner == null) continue;
                             winnerId = winner.Id;
                             playerRankings.First(x => x.PlayerId == winnerId).Points += 0.5m;
@@ -137,6 +156,9 @@ namespace Chess.Core
                     }
                 }
             }
+
+            SetClassement(playerRankings);
+            DisplayRanking(playerRankings);
         }
     }
 }

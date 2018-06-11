@@ -1,13 +1,19 @@
 using System;
 using System.Collections.Generic;
+using Chess.Core.Command;
 
 namespace Chess.Core.Model
 {
-    public class Tournament : ISetupTournament
+    public class Tournament : ITournament
     {
-        public List<Player> Players { get; }= new List<Player>();
+        public List<Player> Players { get; } = new List<Player>();
 
         public List<Round> Rounds { get; set; } = new List<Round>();
+
+        public int ContestantNumber()
+        {
+            return Players.Count;
+        }
 
         public int MaxDisplayLenght;
         public int CurrentRoundNumber { get; private set; }
@@ -25,64 +31,34 @@ namespace Chess.Core.Model
             MaxDisplayLenght = Math.Max(MaxDisplayLenght, player.DisplayLength);
         }
 
-        public void SetResultForCurrentRound()
+        public void SetResultForCurrentRound(Action<ICommandGameResult> setGameResultForGame)
         {
             var currentRound = CurrentRoundNumber;
 
             foreach (var game in Rounds[currentRound - 1].Games)
             {
-                game.GameResult = GetResultForGame(game);
+                if (game.IsPlayedGame)
+                    setGameResultForGame(game);
+                else
+                    ResultForNonPlayedGame(game);
             }
         }
 
-        private GameResult GetResultForGame(Game game)
+        private void ResultForNonPlayedGame(Game game)
         {
-            return game.IsPlayedGame
-                ? ResultForPlayedGame(game)
-                : ResultForNonPlayedGame(game);
-        }
+            game.Display();
 
-        private GameResult ResultForNonPlayedGame(Game game)
-        {
             if (game.BlackContestant is NullPlayer)
             {
-                return GameResult.WinnerWhite;
+                game.SetGameResultCommand(GameResult.WinnerWhite);
+                Console.WriteLine("Blanc vainqueur par abandon");
             }
 
             if (game.WhiteContestant is NullPlayer)
             {
-                return GameResult.WinnerBlack;
+                game.SetGameResultCommand(GameResult.WinnerBlack);
+                Console.WriteLine("Noir vainqueur par abandon");
             }
-
-            return GameResult.None;
-        }
-
-        private GameResult ResultForPlayedGame(Game game)
-        {
-            Console.WriteLine(
-                $" Saisie du résultat de la partie : (Blanc) {game.WhiteContestant.Prenom + game.WhiteContestant.Nom} versus (Noir) {game.BlackContestant.Prenom + game.BlackContestant.Nom}");
-
-            const string possibleKeyPressed = "Resultat ? B (Blanc vainqueur), N (Noir vainqueur), P (Pat ou nul)";
-            Console.WriteLine(possibleKeyPressed);
-
-            var keyPressed = new ConsoleKeyInfo();
-            while (keyPressed.Key != ConsoleKey.Q)
-            {
-                keyPressed = Console.ReadKey();
-                switch (keyPressed.Key)
-                {
-                    case ConsoleKey.B:
-                        return GameResult.WinnerWhite;
-                    case ConsoleKey.N:
-                        return GameResult.WinnerBlack;
-                    case ConsoleKey.P:
-                        return GameResult.NoWinnerPat;
-                    default:
-                        Console.WriteLine(possibleKeyPressed);
-                        break;
-                }
-            }
-            return GameResult.None;
         }
 
         public void NextRound()

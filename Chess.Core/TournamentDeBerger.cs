@@ -1,18 +1,24 @@
 using System;
 using System.Collections.Generic;
+using Chess.Core.Command;
 using Chess.Core.Model;
 
 namespace Chess.Core
 {
-    public class TournamentDeBerger : ITournament
+    public class TournamentDeBerger : ITournament, ISetupTournament
     {
-        public readonly Tournament Tournament = new Tournament();
-        
+        public readonly Tournament Tournament;
+
         public int TotalRoundNumber => ContestantNumber() - 1;
 
         public List<Player> Players => Tournament.Players;
 
         public List<Round> Rounds => Tournament.Rounds;
+
+        public TournamentDeBerger()
+        {
+            Tournament = new Tournament();
+        }
 
         public void AddPlayer(string prenom, string nom, int age)
         {
@@ -31,14 +37,15 @@ namespace Chess.Core
             DisplayAllRounds();
         }
 
-        public void SetResultForCurrentRound()
+        public void SetResultForCurrentRound(Action<ICommandGameResult> setGameResultForGame)
         {
-            Tournament.SetResultForCurrentRound();
+            Tournament.SetResultForCurrentRound(setGameResultForGame);
 
             DisplayAllRounds();
 
             NextRound();
         }
+
         public void NextRound()
         {
             Tournament.NextRound();
@@ -127,38 +134,37 @@ namespace Chess.Core
 
         private static Game GetGame(Player playerB, Player playerA)
         {
-            //if (playerB == null)
-            //{
-            //    playerB = new NullPlayer();
-            //    //var game = new Game(playerA, null)
-            //    //{
-            //    //    GameResult = GameResult.WinnerWhite
-            //    //};
-            //    //return game;
-            //}
+            Player whiteContestant;
+            Player blancContestant;
 
             if ((playerA.Id + playerB.Id) % 2 == 1)
             {
                 if (playerA.Id > playerB.Id)
                 {
-                    return new Game(playerB, playerA);
+                    whiteContestant = playerB;
+                    blancContestant = playerA;
                 }
                 else
                 {
-                    return new Game(playerA, playerB);
+                    whiteContestant = playerA;
+                    blancContestant = playerB;
                 }
             }
             else
             {
                 if (playerA.Id < playerB.Id)
                 {
-                    return new Game(playerB, playerA);
+                    whiteContestant = playerB;
+                    blancContestant = playerA;
                 }
                 else
                 {
-                    return new Game(playerA, playerB);
+                    whiteContestant = playerA;
+                    blancContestant = playerB;
                 }
             }
+
+            return new Game(whiteContestant, blancContestant);
         }
     }
 }

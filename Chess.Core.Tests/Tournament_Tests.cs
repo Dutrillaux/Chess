@@ -14,7 +14,7 @@ namespace Chess.Core.Tests
         [TestMethod]
         public void Adding_Players()
         {
-            ISetupTournament tournament = new Tournament();
+            ISetupTournament tournament = new TournamentDeBerger();
             Assert.AreEqual(0, tournament.Players.Count);
 
             tournament.AddPlayer("John", "Doe", 25);

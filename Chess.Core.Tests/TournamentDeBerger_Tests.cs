@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Chess.Core.Command;
 using Chess.Core.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -12,9 +13,40 @@ namespace Chess.Core.Tests
     public class TournamentDeBerger_Tests
     {
         [TestMethod]
-        public void Has_Game_Ranking_When_Games_Results_Are_Filled()
+        public void Should_Ranking_Based_On_Direct_Confrontation()
         {
-            var tournamentDeBerger = new TournamentDeBerger();
+            var tournamentDeBerger = GetTournamentDeBergerWithBasicResults();
+
+            var rankingService = new RankingService();
+            var ranking = rankingService.SetRankingByDirectConfrontation(tournamentDeBerger);
+
+            Assert.IsTrue(ranking.Count == tournamentDeBerger.Players.Count, "Le nombre de joueur dans ronking n'est pas correct");
+            Assert.AreEqual(ranking.First(x => x.PlayerId == 1).Rank, 0);
+            Assert.AreEqual(ranking.First(x => x.PlayerId == 2).Rank, 1);
+            Assert.AreEqual(ranking.First(x => x.PlayerId == 3).Rank, 0);
+            Assert.AreEqual(ranking.First(x => x.PlayerId == 4).Rank, 5);
+            Assert.AreEqual(ranking.First(x => x.PlayerId == 5).Rank, 2);
+        }
+
+        [TestMethod]
+        public void Should_Points_Based_On_GameResults()
+        {
+            var tournamentDeBerger = GetTournamentDeBergerWithBasicResults();
+
+            var rankingService = new RankingService();
+            var ranking = rankingService.SetRankingByDirectConfrontation(tournamentDeBerger);
+
+            Assert.IsTrue(ranking.Count == tournamentDeBerger.Players.Count, "Le nombre de joueur dans ronking n'est pas correct");
+            Assert.AreEqual(ranking.First(x => x.PlayerId == 1).Points, 2.0m);
+            Assert.AreEqual(ranking.First(x => x.PlayerId == 2).Points, 4.5m);
+            Assert.AreEqual(ranking.First(x => x.PlayerId == 3).Points, 2.0m);
+            Assert.AreEqual(ranking.First(x => x.PlayerId == 4).Points, 1.0m);
+            Assert.AreEqual(ranking.First(x => x.PlayerId == 5).Points, 2.5m);
+        }
+
+        private static ISetupTournament GetTournamentDeBergerWithBasicResults()
+        {
+            ISetupTournament tournamentDeBerger = new TournamentDeBerger();
 
             tournamentDeBerger.AddPlayer("John", "Doe", 25);
             tournamentDeBerger.AddPlayer("Johnny", "Good", 25);
@@ -22,11 +54,7 @@ namespace Chess.Core.Tests
             tournamentDeBerger.AddPlayer("Robert", "Michoum", 25);
             tournamentDeBerger.AddPlayer("Mike", "Orson", 18);
 
-            Assert.AreEqual(5, tournamentDeBerger.Players.Count);
-
             tournamentDeBerger.StartTournement();
-
-            tournamentDeBerger.SetResultForCurrentRound();
 
             var cpt = 0;
             foreach (var round in tournamentDeBerger.Rounds)
@@ -36,23 +64,34 @@ namespace Chess.Core.Tests
                     cpt++;
                     if (game.BlackContestant.Id == 2)
                     {
-                        game.GameResult = GameResult.WinnerBlack;
+                        SetBlackContestantWinner(game);
                     }
                     else if (cpt % 2 == 0)
                     {
-                        game.GameResult = GameResult.WinnerWhite;
+                        SetWhiteContestantWinner(game);
                     }
                     else
                     {
-                        game.GameResult = GameResult.NoWinnerPat;
+                        SetNoContestantWinner(game);
                     }
                 }
             }
 
-            var rankingService = new RankingService();
-            var ranking = rankingService.CalculateRanking(tournamentDeBerger);
+            return tournamentDeBerger;
+        }
 
-            Assert.IsNotNull(ranking);
+        private static void SetWhiteContestantWinner(ICommandGameResult gameResultcommand)
+        {
+            gameResultcommand.SetGameResultCommand(GameResult.WinnerWhite);
+        }
+        private static void SetBlackContestantWinner(ICommandGameResult gameResultcommand)
+        {
+            gameResultcommand.SetGameResultCommand(GameResult.WinnerBlack);
+        }
+
+        private static void SetNoContestantWinner(ICommandGameResult gameResultcommand)
+        {
+            gameResultcommand.SetGameResultCommand(GameResult.NoWinnerPat);
         }
 
         [TestMethod]
