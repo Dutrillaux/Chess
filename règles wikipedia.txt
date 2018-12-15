@@ -1,0 +1,52 @@
+Départages 
+
+SOLKOV : ou Solkoff. Ancien nom du Buchholz.
+Bresilien
+
+
+Système Solkoff
+	On additionne les résultats (marques) de tous les adversaires rencontrés.
+
+	Le résultat obtenu, appelé la « SPA » : somme des points des adversaires (en anglais : SOS : Sum of Opponents Scores), mesure la difficulté de parcours de chacun des joueurs. Un joueur qui a affronté des joueurs mieux classés à la fin du tournoi, a une SPA plus élevée qu'un joueur qui a affronté des joueurs moins bien classés.
+
+	Lors d'une partie non disputée (par forfait ou exemption du joueur pendant une ronde), on ajuste le « Solkoff » en accordant 0,5 point par partie non disputée dans le score de chaque joueur.	
+
+Système Buchholz
+	On multiplie le score du joueur par la somme des points de tous les joueurs rencontrés (SPA).
+
+	Lorsque ce système est utilisé pour départager des joueurs ayant le même score, on ne multiplie pas et le système Buchholz se confond avec le système Solkoff.
+	
+Système brésilien ou Solkoff tronqué (ou Cutoff)
+	On additionne les résultats des adversaires rencontrés moins celui qui a le moins bon résultat. Si il y a plus de huit rondes, on enlève les marques des deux ou trois adversaires (selon le nombre de rondes) les moins performants.
+	
+	Une variante consiste à enlever le résultat de la première ou des deux premières rondes.
+	
+
+CUMULATIF : 
+		Le Cumulatif valorise les points marqués en début de tournoi. 
+		L'anti "sous-marin" par excellence. Un joueur qui perd au début rencontrera des joueurs plus faibles ; 
+		alors qu'un joueur qui gagne au début rencontrera des adversaires plus forts.
+		4 Exemples :
+			Joueur \Ronde 1 2 3 4 5 6 Pts C.
+			Soumarinov Absent Perte Perte Gain Gain Gain
+			Score 0 0 0 1 2 3 3
+			Score Cumulé 0 0 0 1 3 6 6
+			Attakinski Gain Gain Gain Perte Perte Perte
+			Score 1 2 3 3 3 3 3
+			Score Cumulé 1 3 6 9 12 15 15
+			Solidov Nulle Nulle Nulle Nulle Nulle Nulle
+			Score 0,5 1 1,5 2 2,5 3 3
+			Score Cumulé 0,5 1,5 3 5 7,5 10,5 10,5
+			Classikov Gain Forfait Perte Gain Nulle Perte Nulle
+			Score 1F 1 2 2,5 2,5 3 3
+			Score Cumulé 1 2 4 6,5 9 12 12
+	CUMULATIF (suite) :
+		- Soumarinov : 0 + 0 + 0 + 1 + 2 + 3 = 6. Il engrange le minimum. Les points faciles sont marqués à la fin.
+		- Attakinski : 1 + 2 + 3 + 3 + 3 + 3 = 15. Il engrange le maximum. Il a fait le tournoi en tête et joué sur les
+		premières tables. Comparer son parcours avec le précédent.
+		- Solidov : 0,5 + 1 + 1,5 + 2 + 2,5 + 3 = 10,5. Un tournoi moyen.
+		- Classikov : 1 + 1 + 2 + 2,5 + 2,5 + 3 = 12. Le forfait est compté comme une victoire normale. Il n'y a pas
+		d'ajustement. Les deux points marqués en début de tournoi, lui donnent un assez bon Cumulatif.
+		Avantage pour l'arbitre : le Cumulatif n'étant qu'une simple addition, il est facile à calculer.
+		Cet avantage peut devenir un inconvénient : il est facile à anticiper (dans un groupe de point, la valeur du
+		Cumulatif change, mais pas l'ordre). Ceci peut encourager des "arrangements" à la dernière ronde.

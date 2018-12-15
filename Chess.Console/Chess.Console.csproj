@@ -53,6 +53,10 @@
       <Project>{99ac2b4b-0491-4024-af86-c0257b5b6133}</Project>
       <Name>Chess.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tools\Tools.csproj">
+      <Project>{782e11ee-d499-4022-acce-a27523b97612}</Project>
+      <Name>Tools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

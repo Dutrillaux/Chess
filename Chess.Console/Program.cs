@@ -2,13 +2,13 @@ using System;
 using Chess.Core;
 using Chess.Core.Command;
 using Chess.Core.Model;
-//using ConsoleKey = System.ConsoleKey;
+using Tools;
 
 namespace Chess.Console
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var tournamentDeBerger = new TournamentDeBerger();
 
@@ -18,22 +18,24 @@ namespace Chess.Console
             tournamentDeBerger.AddPlayer("Robert", "Michoum", 25);
             tournamentDeBerger.AddPlayer("Mike", "Orson", 18);
 
-            System.Console.WriteLine("Nombre de joeur inscrits :" + tournamentDeBerger.Players.Count);
-            System.Console.WriteLine("Nomre de Ronde : " + tournamentDeBerger.TotalRoundNumber);
+            Logger.WriteLine("Nombre de joueurs" +
+                " inscrits :" + tournamentDeBerger.Players.Count);
+            Logger.WriteLine("Nombre de Rondes : " + tournamentDeBerger.TotalRoundNumber);
 
-            System.Console.WriteLine();
-            System.Console.WriteLine();
+            Logger.WriteLine();
+            Logger.WriteLine();
 
             tournamentDeBerger.StartTournement();
 
             var keyPressed = new ConsoleKeyInfo();
             while (keyPressed.Key != ConsoleKey.Q)
             {
-                System.Console.WriteLine(
-                    "V pour saisie des résultats, A pour Afficher toutes les rondes, Q pour quitter");
-                System.Console.WriteLine("S pour ronde suivante");
+                Logger.WriteLine("V pour la saisie des résultats");
+                Logger.WriteLine("A pour Afficher toutes les rondes");
+                Logger.WriteLine("Q pour quitter");
+                Logger.WriteLine("S pour la ronde suivante");
                 keyPressed = System.Console.ReadKey();
-                System.Console.WriteLine();
+                Logger.WriteLine();
 
                 switch (keyPressed.Key)
                 {
@@ -47,7 +49,7 @@ namespace Chess.Console
                         tournamentDeBerger.NextRound();
                         break;
                     case ConsoleKey.S:
-                        new RankingService().CalculateRanking(tournamentDeBerger);
+                        new RankingService().ComputeRanking(tournamentDeBerger);
                         break;
                 }
             }
@@ -55,10 +57,10 @@ namespace Chess.Console
 
         private static void SetGameResultForGame(ICommandGameResult game)
         {
-            System.Console.WriteLine(" Saisie du résultat de la partie : " + game);
+            Logger.WriteLine(" Saisie du résultat de la partie : " + game);
 
             const string possibleKeyPressed = "Resultat ? B (Blanc vainqueur), N (Noir vainqueur), P (Pat ou nul), Q (quitter)";
-            System.Console.WriteLine(possibleKeyPressed);
+            Logger.WriteLine(possibleKeyPressed);
 
             var keyPressed = new ConsoleKeyInfo();
             while (keyPressed.Key != ConsoleKey.Q)
@@ -78,7 +80,7 @@ namespace Chess.Console
                     case ConsoleKey.Q:
                         return;
                     default:
-                        System.Console.WriteLine(possibleKeyPressed);
+                        Logger.WriteLine(possibleKeyPressed);
                         break;
                 }
             }

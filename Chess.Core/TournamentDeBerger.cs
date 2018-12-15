@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Chess.Core.Command;
 using Chess.Core.Model;
+using Tools;
 
 namespace Chess.Core
 {
@@ -24,17 +25,26 @@ namespace Chess.Core
         {
             Tournament.AddPlayer(prenom, nom, age);
         }
+        public void AddPlayer(Player player)
+        {
+            Tournament.AddPlayer(player);
+        }
 
         public void StartTournement()
         {
-            Console.WriteLine("Type de tournoi : Table de Berger");
-            Console.WriteLine();
+            Logger.WriteLine("Type de tournoi : Table de Berger");
+            Logger.WriteLine();
 
             var rounds = PopulateRounds(Players);
 
             Tournament.Rounds = rounds;
 
             DisplayAllRounds();
+        }
+
+        public void ForceRounds(List<Round> rounds)
+        {
+            Tournament.Rounds = rounds;
         }
 
         public void SetResultForCurrentRound(Action<ICommandGameResult> setGameResultForGame)

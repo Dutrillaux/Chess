@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
+using Tools;
 
 namespace Chess.Core.Model
 {
@@ -16,10 +18,11 @@ namespace Chess.Core.Model
         {
             var result = new StringBuilder();
 
-            var roundDescrition = currentRoundNumber.HasValue 
-                ? $"Ronde {currentRoundNumber.Value} || " 
-                : "Ronde || ";
-            result.Append(roundDescrition);
+            result.Append("Ronde ");
+            if (currentRoundNumber.HasValue)
+            {
+                result.Append(currentRoundNumber.Value + " | ");
+            }
 
             foreach (var game in Games)
             {
@@ -44,23 +47,23 @@ namespace Chess.Core.Model
                 case GameResult.NoWinnerPat:
                     return " [.5]-[.5] ";
                 default:
-                    return "     -     ";
+                    return " - ";
             }
         }
 
         private static string FormatContestant(Player player, int? maxLength)
         {
-            var result = $"({player.Id}) {player.Prenom} {player.Nom}";
+            var result = $"({player.Id}) {player.FirstName} {player.LastName}";
 
             if (maxLength.HasValue)
-                return result.PadRight(maxLength.Value + 7, ' ');
+                return result.PadRight(maxLength.Value /*+ 7*/, ' ');
 
             return result;
         }
 
         public void Display(int currentRoundNumber, int tournamentMaxDisplayLenght)
         {
-            System.Console.WriteLine(GetRoundAsString(currentRoundNumber, tournamentMaxDisplayLenght));
+            Logger.WriteLine(GetRoundAsString(currentRoundNumber, tournamentMaxDisplayLenght));
         }
     }
 }

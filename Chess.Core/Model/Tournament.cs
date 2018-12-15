@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Chess.Core.Command;
+using Tools;
 
 namespace Chess.Core.Model
 {
@@ -25,9 +26,12 @@ namespace Chess.Core.Model
 
         public void AddPlayer(string prenom, string nom, int age)
         {
-            var player = new Player(Players.Count + 1, prenom, nom, age);
-            Players.Add(player);
+            AddPlayer(new Player(Players.Count, prenom, nom, age));
+        }
 
+        internal void AddPlayer(Player player)
+        {
+            Players.Add(player);
             MaxDisplayLenght = Math.Max(MaxDisplayLenght, player.DisplayLength);
         }
 
@@ -51,16 +55,16 @@ namespace Chess.Core.Model
             if (game.BlackContestant is NullPlayer)
             {
                 game.SetGameResultCommand(GameResult.WinnerWhite);
-                Console.WriteLine("Blanc vainqueur par abandon");
+                Logger.WriteLine("Blanc vainqueur par abandon");
             }
 
             if (game.WhiteContestant is NullPlayer)
             {
                 game.SetGameResultCommand(GameResult.WinnerBlack);
-                Console.WriteLine("Noir vainqueur par abandon");
+                Logger.WriteLine("Noir vainqueur par abandon");
             }
         }
-
+        
         public void NextRound()
         {
             if (CurrentRoundNumber >= Rounds.Count)
@@ -75,7 +79,7 @@ namespace Chess.Core.Model
 
         private void EndOfTournament()
         {
-            Console.WriteLine(" Le tournoi est terminé.");
+            Logger.WriteLine(" Le tournoi est terminé.");
         }
     }
 }

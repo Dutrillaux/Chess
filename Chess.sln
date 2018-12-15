@@ -9,6 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.Core", "Chess.Core\Ch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Core.Tests", "Chess.Core.Tests\Chess.Core.Tests.csproj", "{EA1CA3A4-A937-465A-8CC5-ED30260014D1}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tools", "Tools\Tools.csproj", "{782E11EE-D499-4022-ACCE-A27523B97612}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BE1A87B9-817D-4BBA-B320-364E26B7985B}"
+	ProjectSection(SolutionItems) = preProject
+		240.pdf = 240.pdf
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +34,10 @@ Global
 		{EA1CA3A4-A937-465A-8CC5-ED30260014D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA1CA3A4-A937-465A-8CC5-ED30260014D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA1CA3A4-A937-465A-8CC5-ED30260014D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{782E11EE-D499-4022-ACCE-A27523B97612}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{782E11EE-D499-4022-ACCE-A27523B97612}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{782E11EE-D499-4022-ACCE-A27523B97612}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{782E11EE-D499-4022-ACCE-A27523B97612}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

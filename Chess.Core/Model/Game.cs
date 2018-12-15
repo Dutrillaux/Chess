@@ -1,5 +1,6 @@
 using System;
 using Chess.Core.Command;
+using Tools;
 
 namespace Chess.Core.Model
 {
@@ -21,17 +22,33 @@ namespace Chess.Core.Model
 
         public override string ToString()
         {
-            return $"(Blanc) {WhiteContestant?.Prenom + WhiteContestant?.Nom} versus (Noir) {BlackContestant?.Prenom + BlackContestant?.Nom}";
+            return $"(Blanc) {WhiteContestant?.FirstName + WhiteContestant?.LastName} versus (Noir) {BlackContestant?.FirstName + BlackContestant?.LastName}";
         }
 
         public void SetGameResultCommand(GameResult gameResult)
         {
             GameResult = gameResult;
+            SetPointsFromResult(gameResult);
         }
 
         public void Display()
         {
-            Console.WriteLine(this);
+            Logger.WriteLine(ToString());
+        }
+
+        private void SetPointsFromResult(GameResult gameResult)
+        {
+            GameResultHelper.GetResult(gameResult, out var whiteContestantPoints, out var blackContestantPoints);
+            
+            BlackContestant.Points += blackContestantPoints;
+            WhiteContestant.Points += whiteContestantPoints;
+        }
+
+        public Game Clone()
+        {
+            var gameClone =  new Game(WhiteContestant.Clone(), BlackContestant.Clone());
+            gameClone.SetGameResultCommand(GameResult);
+            return gameClone;
         }
     }
 }

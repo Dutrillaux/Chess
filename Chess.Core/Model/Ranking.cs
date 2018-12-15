@@ -1,8 +1,8 @@
 ﻿namespace Chess.Core.Model
 {
-    public class Classement
+    public class Ranking
     {
-        public Classement(string label)
+        public Ranking(string label)
         {
             Label = label;
         }
